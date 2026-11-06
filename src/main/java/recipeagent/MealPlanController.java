@@ -35,12 +35,14 @@ public class MealPlanController {
     }
 
     public AIResult<List<MealSlot>> generateMealPlan(String criteria, boolean savedOnly) {
-        // TODO: needs AIAgent.generateMealPlan
-        return null;
+        AIResult<List<MealSlot>> result = aiAgent.generateMealPlan(criteria, savedOnly);
+        if (result.isSuccess()) {
+            mealPlanManager.applyPlan(result.getData());
+        }
+        return result;
     }
 
     public AIResult<List<Ingredient>> generateShoppingList(boolean usePantry) {
-        // TODO: needs AIAgent.generateShoppingList
-        return null;
+        return aiAgent.generateShoppingList(usePantry);
     }
 }

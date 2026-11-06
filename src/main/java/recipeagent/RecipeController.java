@@ -18,8 +18,12 @@ public class RecipeController {
     }
 
     public AIResult<List<Recipe>> requestRecommendations(String request) {
-        // TODO: needs AIAgent.recommendRecipes
-        return null;
+        chatHistory.add(new ChatMessage("User", request));
+        AIResult<List<Recipe>> result = aiAgent.recommendRecipes(request, chatHistory);
+        if (result.isSuccess() || result.isFlagged()) {
+            chatHistory.add(new ChatMessage("AI", result.getMessage()));
+        }
+        return result;
     }
 
     public boolean saveRecommendedRecipe(Recipe r) {
@@ -27,8 +31,11 @@ public class RecipeController {
     }
 
     public AIResult<Recipe> addPersonalRecipe(String text) {
-        // TODO: needs AIAgent.parsePersonalRecipe
-        return null;
+        AIResult<Recipe> result = aiAgent.parsePersonalRecipe(text);
+        if (result.isSuccess() && !recipeManager.saveRecipe(result.getData())) {
+            return AIResult.error("The recipe couldn't be saved because its name is blank or already taken.");
+        }
+        return result;
     }
 
     public List<Recipe> firstPage() {
@@ -63,8 +70,22 @@ public class RecipeController {
     }
 
     public AIResult<Recipe> requestModification(String request) {
-        // TODO: needs AIAgent.requestModification
-        return null;
+        chatHistory.add(new ChatMessage("User", request));
+        AIResult<Recipe> result = aiAgent.requestModification(editDraft, request, chatHistory);
+        if (result.isSuccess() || result.isFlagged()) {
+            chatHistory.add(new ChatMessage("AI", result.getMessage()));
+        }
+        if (result.isSuccess() && result.getData() != null) {
+            Recipe recipe = result.getData();
+            editDraft.setName(recipe.getName());
+            editDraft.setIngredients(recipe.getIngredients());
+            editDraft.setInstructions(recipe.getInstructions());
+            editDraft.setCookingTime(recipe.getCookingTime());
+            editDraft.setMealType(recipe.getMealType());
+            editDraft.setServings(recipe.getServings());
+            editDraft.setNotes(recipe.getNotes());
+        }
+        return result;
     }
 
     public boolean saveEdit() {
@@ -82,8 +103,12 @@ public class RecipeController {
     }
 
     public AIResult<List<Recipe>> searchRecipes(String query) {
-        // TODO: needs AIAgent.searchSavedRecipes
-        return null;
+        AIResult<List<Recipe>> result = aiAgent.searchSavedRecipes(query);
+        if (!result.isSuccess()) {
+            return result;
+        }
+        pageIterator = new RecipePageIterator(result.getData(), PAGE_SIZE);
+        return AIResult.success(pageIterator.next(), result.getMessage());
     }
 
     public List<Recipe> clearSearch() {
