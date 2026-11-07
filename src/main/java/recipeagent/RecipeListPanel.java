@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 public class RecipeListPanel extends JPanel {
@@ -26,6 +28,7 @@ public class RecipeListPanel extends JPanel {
     private JButton previousButton = new JButton("< Prev");
     private JButton nextButton = new JButton("Next >");
     private JTextArea messageArea = new JTextArea(3, 20);
+    private JLabel moreLabel = new JLabel(" ", SwingConstants.CENTER);
 
     public RecipeListPanel(RecipeController controller, Consumer<Recipe> onSelect) {
         super(new BorderLayout(5, 5));
@@ -68,8 +71,11 @@ public class RecipeListPanel extends JPanel {
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.add(pageRow, BorderLayout.NORTH);
         bottom.add(messageArea, BorderLayout.CENTER);
+        JPanel listArea = new JPanel(new BorderLayout());
+        listArea.add(new JScrollPane(list), BorderLayout.CENTER);
+        listArea.add(moreLabel, BorderLayout.SOUTH);
         add(searchRow, BorderLayout.NORTH);
-        add(new JScrollPane(list), BorderLayout.CENTER);
+        add(listArea, BorderLayout.CENTER);
         add(bottom, BorderLayout.SOUTH);
     }
 
@@ -129,5 +135,6 @@ public class RecipeListPanel extends JPanel {
         listModel.addAll(page);
         previousButton.setEnabled(controller.hasPreviousPage());
         nextButton.setEnabled(controller.hasNextPage());
+        moreLabel.setText(controller.hasNextPage() ? "More recipes on the next page →" : " ");
     }
 }

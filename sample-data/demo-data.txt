@@ -1,0 +1,78 @@
+Sample data for the AI Recipe & Meal Planner
+=============================================
+
+The app starts with no saved recipes. Run it with --fixtures (see README) to
+start with the 26 recipes in fixtures.json, whose names differ from the ones
+below. To load the recipes below, use
+"Add personal recipe" (GUI: Recipes tab; CLI: main menu option 2) and paste
+one recipe at a time. In the CLI, type END on its own line after the recipe.
+The recipes are written in different styles on purpose, to show the AI
+organising each one into the same fields.
+
+
+--- Recipe 1 ---
+Garlic Fried Rice
+Dinner, takes about 20 minutes, serves 2.
+Ingredients: 2 cups cooked rice (day-old is best), 2 eggs, 3 cloves garlic, 2 green onions, 2 tbsp soy sauce, 1 tbsp vegetable oil.
+1. Heat the oil and fry the minced garlic until golden.
+2. Push it aside, scramble the eggs, then add the rice.
+3. Stir in the soy sauce and sliced green onions and fry for 3 more minutes.
+
+
+--- Recipe 2 ---
+Overnight Oats (breakfast, serves 1, 5 min prep + overnight)
+- 1/2 cup rolled oats
+- 1/2 cup milk
+- 1/4 cup Greek yogurt
+- 1 tbsp honey
+- 1/2 cup berries
+Mix everything except the berries in a jar, refrigerate overnight, and top with the berries in the morning.
+
+
+--- Recipe 3 ---
+Chickpea Spinach Curry - vegetarian dinner for 4, 30 minutes.
+You need 1 onion, 2 cloves garlic, 1 tbsp curry powder, 1 can chickpeas (drained), 1 can coconut milk, 3 cups spinach and salt.
+Soften the chopped onion and garlic in a little oil, stir in the curry powder for a minute, add the chickpeas and coconut milk and simmer for 15 minutes, then wilt in the spinach and season with salt. Serve with rice.
+
+
+--- Recipe 4 ---
+Greek Salad
+Lunch | 10 min | serves 2
+Ingredients:
+  cucumber - 1
+  tomatoes - 3
+  red onion - 1/2
+  feta - 100 g
+  kalamata olives - 1/3 cup
+  olive oil - 3 tbsp
+  dried oregano - 1 tsp
+Steps:
+  Chop the vegetables, add the olives and cubed feta, drizzle with olive oil and sprinkle with oregano.
+
+
+--- Recipe 5 ---
+Banana Pancakes
+Breakfast. Makes 8 small pancakes (serves 2). 15 minutes.
+2 ripe bananas, 2 eggs, 1/2 cup flour, 1 tsp baking powder, a pinch of salt, butter for the pan.
+Mash the bananas, whisk in the eggs, then stir in the flour, baking powder and salt. Cook spoonfuls in a buttered pan for about 2 minutes per side.
+
+
+--- Not a recipe (pasting this shows F02 rejecting non-recipes) ---
+Remember to call the dentist on Tuesday and pick up the dry cleaning.
+
+
+Suggested demo inputs
+=====================
+
+Pantry (F10): Eggs - 6, Rice - 2 kg, Spinach - 1 bag, Milk - 1 L
+Profile (F11): Dietary restrictions - vegetarian; Disliked ingredients - mushrooms;
+  Nutrition goals - high protein. To show the nonsense check, set
+  Other preferences to "purple monkey dishwasher" and then run an AI feature.
+Recommend (F01): "A quick dinner using eggs and spinach", then "Something spicier"
+Modify (F05): while editing Garlic Fried Rice, ask "How can I make this serve 4?",
+  then "Apply that"
+Search (F06): "Something I can eat for breakfast"
+Meal plan (F07): "High protein, nothing over 30 minutes", with and without
+  "saved recipes only"
+Shopping list (F08): generate it with and without "use my pantry"
+Off-topic request (any AI feature): "Who won the hockey game last night?"

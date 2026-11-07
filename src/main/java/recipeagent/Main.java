@@ -1,18 +1,26 @@
 package recipeagent;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 public class Main {
     public static void main(String[] args) {
+        List<String> options = List.of(args);
         String apiKey = readApiKey();
-        AIAgent agent = new AIAgent(new HttpLLMClient(apiKey, "claude-sonnet-5-5"));
-        if (args.length > 0 && args[0].equals("--cli")) {
-            if (apiKey.isEmpty()) {
+        boolean fakeAI = options.contains("--fake-ai");
+        AIAgent agent = new AIAgent(fakeAI ? new FakeLLMClient() : new HttpLLMClient(apiKey, "claude-sonnet-5-5"));
+        if (options.contains("--fixtures")) {
+            loadFixtures();
+        }
+        if (options.contains("--cli")) {
+            if (apiKey.isEmpty() && !fakeAI) {
                 System.out.println("No LLM_API_KEY was found in the .env file, so the AI features won't work.");
             }
             new CommandLineApp(agent).run();
@@ -25,7 +33,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             MainWindow window = new MainWindow(agent);
             window.setVisible(true);
-            if (apiKey.isEmpty()) {
+            if (apiKey.isEmpty() && !fakeAI) {
                 JOptionPane.showMessageDialog(window,
                         "No LLM_API_KEY was found in the .env file, so the AI features won't work.",
                         "No API key", JOptionPane.WARNING_MESSAGE);
@@ -43,5 +51,17 @@ public class Main {
         } catch (IOException e) {
         }
         return "";
+    }
+
+    private static void loadFixtures() {
+        try {
+            List<Recipe> recipes = new Gson().fromJson(Files.readString(Path.of("sample-data/fixtures.json")),
+                    new TypeToken<List<Recipe>>() {});
+            for (Recipe recipe : recipes) {
+                RecipeManager.getInstance().saveRecipe(recipe);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

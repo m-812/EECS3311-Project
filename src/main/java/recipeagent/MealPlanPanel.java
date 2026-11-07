@@ -139,7 +139,7 @@ public class MealPlanPanel extends JPanel {
     private void addToSlot(DayOfWeek day, MealTime time) {
         RecipeListPanel picker = new RecipeListPanel(recipeController, recipe -> {
         });
-        picker.setPreferredSize(new Dimension(420, 450));
+        picker.setPreferredSize(new Dimension(420, 580));
         picker.openRecipeList();
         String title = "Choose a recipe for " + day.getDisplayName(TextStyle.FULL, Locale.getDefault()) + " "
                 + mealTimeName(time).toLowerCase();

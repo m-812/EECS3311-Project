@@ -9,7 +9,7 @@ public class RecipeController {
     private List<ChatMessage> chatHistory;
     private Recipe editDraft;
     private RecipePageIterator pageIterator;
-    public static final int PAGE_SIZE = 10;
+    public static final int PAGE_SIZE = 24;
 
     public RecipeController(AIAgent agent) {
         recipeManager = RecipeManager.getInstance();
