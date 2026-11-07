@@ -26,6 +26,10 @@ public class RecipeController {
         return result;
     }
 
+    public List<ChatMessage> getChatHistory() {
+        return new ArrayList<>(chatHistory);
+    }
+
     public boolean saveRecommendedRecipe(Recipe r) {
         return recipeManager.saveRecipe(r);
     }
