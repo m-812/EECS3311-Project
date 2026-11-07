@@ -18,6 +18,7 @@ public class RecipesPanel extends JPanel {
     private JTextArea details = new JTextArea();
     private JButton addButton = new JButton("Add personal recipe");
     private JButton favouriteButton = new JButton("Favourite");
+    private JButton editButton = new JButton("Edit");
     private JButton removeButton = new JButton("Remove");
     private Recipe selected;
 
@@ -31,6 +32,7 @@ public class RecipesPanel extends JPanel {
         details.setMargin(new Insets(8, 8, 8, 8));
         addButton.addActionListener(e -> pasteRecipe());
         favouriteButton.addActionListener(e -> clickFavourite());
+        editButton.addActionListener(e -> clickEdit());
         removeButton.addActionListener(e -> removeRecipe());
 
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listPanel, new JScrollPane(details));
@@ -38,6 +40,7 @@ public class RecipesPanel extends JPanel {
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttons.add(addButton);
         buttons.add(favouriteButton);
+        buttons.add(editButton);
         buttons.add(removeButton);
         add(split, BorderLayout.CENTER);
         add(buttons, BorderLayout.SOUTH);
@@ -60,6 +63,7 @@ public class RecipesPanel extends JPanel {
         details.setText(recipe == null ? "" : formatRecipe(recipe));
         details.setCaretPosition(0);
         favouriteButton.setEnabled(recipe != null);
+        editButton.setEnabled(recipe != null);
         removeButton.setEnabled(recipe != null);
         favouriteButton.setText(recipe != null && recipe.isFavourite() ? "Unfavourite" : "Favourite");
     }
@@ -72,6 +76,12 @@ public class RecipesPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "That recipe no longer exists.", "Favourite", JOptionPane.ERROR_MESSAGE);
             openRecipeList();
         }
+    }
+
+    private void clickEdit() {
+        RecipeEditPanel.open(this, controller, selected.getId());
+        selectRecipe(selected);
+        listPanel.refresh();
     }
 
     private void removeRecipe() {
