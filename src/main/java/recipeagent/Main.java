@@ -11,6 +11,13 @@ public class Main {
     public static void main(String[] args) {
         String apiKey = readApiKey();
         AIAgent agent = new AIAgent(new HttpLLMClient(apiKey, "claude-sonnet-5-5"));
+        if (args.length > 0 && args[0].equals("--cli")) {
+            if (apiKey.isEmpty()) {
+                System.out.println("No LLM_API_KEY was found in the .env file, so the AI features won't work.");
+            }
+            new CommandLineApp(agent).run();
+            return;
+        }
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
