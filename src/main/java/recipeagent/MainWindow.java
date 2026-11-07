@@ -14,6 +14,7 @@ public class MainWindow extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Recipes", new RecipesPanel(recipeController));
         tabs.addTab("Recommend", new RecommendPanel(recipeController));
+        tabs.addTab("Meal Plan", new MealPlanPanel(new MealPlanController(agent), recipeController));
         tabs.addTab("Pantry", new PantryPanel(new PantryController()));
         tabs.addTab("Profile", new ProfilePanel(new ProfileController()));
         add(tabs);

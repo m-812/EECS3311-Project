@@ -81,6 +81,10 @@ public class RecipeListPanel extends JPanel {
         list.repaint();
     }
 
+    public Recipe getSelectedRecipe() {
+        return list.getSelectedValue();
+    }
+
     public void showStatus(String text) {
         messageArea.setForeground(UIManager.getColor("Label.foreground"));
         messageArea.setText(text);
