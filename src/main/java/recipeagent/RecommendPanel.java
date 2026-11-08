@@ -28,7 +28,7 @@ public class RecommendPanel extends JPanel {
     private JList<Recipe> recipeList = new JList<>(recipeModel);
     private JTextArea details = new JTextArea();
     private JButton saveButton = new JButton("Save to my recipes");
-    private JLabel status = new JLabel(" ");
+    private JTextArea status = new JTextArea(2, 20);
 
     public RecommendPanel(RecipeController controller) {
         super(new BorderLayout(5, 5));
@@ -41,6 +41,10 @@ public class RecommendPanel extends JPanel {
         details.setLineWrap(true);
         details.setWrapStyleWord(true);
         details.setMargin(new Insets(8, 8, 8, 8));
+        status.setEditable(false);
+        status.setLineWrap(true);
+        status.setWrapStyleWord(true);
+        status.setOpaque(false);
         recipeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         recipeList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
@@ -67,9 +71,11 @@ public class RecommendPanel extends JPanel {
         JSplitPane recipeSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(recipeList),
                 new JScrollPane(details));
         recipeSplit.setDividerLocation(120);
-        JPanel saveRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        saveRow.add(saveButton);
-        saveRow.add(status);
+        JPanel buttonRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonRow.add(saveButton);
+        JPanel saveRow = new JPanel(new BorderLayout());
+        saveRow.add(buttonRow, BorderLayout.NORTH);
+        saveRow.add(status, BorderLayout.CENTER);
         JPanel recipes = new JPanel(new BorderLayout(5, 5));
         recipes.add(new JLabel("Recommended recipes"), BorderLayout.NORTH);
         recipes.add(recipeSplit, BorderLayout.CENTER);
@@ -100,7 +106,7 @@ public class RecommendPanel extends JPanel {
         details.setText(recipe == null ? "" : RecipesPanel.formatRecipe(recipe));
         details.setCaretPosition(0);
         saveButton.setEnabled(recipe != null);
-        status.setText(" ");
+        status.setText("");
     }
 
     private void requestRecommendations() {

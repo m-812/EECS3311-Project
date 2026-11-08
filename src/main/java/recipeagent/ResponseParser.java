@@ -51,17 +51,20 @@ public class ResponseParser {
         }
         List<MealSlot> slots = new ArrayList<>();
         for (JsonElement element : reply.getAsJsonArray("slots")) {
-            JsonObject slot = element.getAsJsonObject();
-            Recipe recipe = new Gson().fromJson(slot.get("recipe"), Recipe.class);
-            for (Recipe saved : savedRecipes) {
-                if (saved.getId().equals(slot.get("recipeId").getAsString())) {
-                    recipe = saved;
+            try {
+                JsonObject slot = element.getAsJsonObject();
+                Recipe recipe = new Gson().fromJson(slot.get("recipe"), Recipe.class);
+                for (Recipe saved : savedRecipes) {
+                    if (saved.getId().equals(slot.get("recipeId").getAsString())) {
+                        recipe = saved;
+                    }
                 }
-            }
-            if (recipe != null) {
-                DayOfWeek day = DayOfWeek.valueOf(slot.get("day").getAsString().toUpperCase());
-                MealTime time = MealTime.valueOf(slot.get("mealTime").getAsString().toUpperCase());
-                slots.add(new MealSlot(day, time, recipe));
+                if (recipe != null) {
+                    DayOfWeek day = DayOfWeek.valueOf(slot.get("day").getAsString().toUpperCase());
+                    MealTime time = MealTime.valueOf(slot.get("mealTime").getAsString().toUpperCase());
+                    slots.add(new MealSlot(day, time, recipe));
+                }
+            } catch (RuntimeException e) {
             }
         }
         return AIResult.success(slots, message);
@@ -80,7 +83,11 @@ public class ResponseParser {
 
     public List<String> parseInvalidProfileFields(String json) {
         JsonObject reply = JsonParser.parseString(extractJson(json)).getAsJsonObject();
-        return new Gson().fromJson(reply.get("invalidProfileFields"), new TypeToken<List<String>>() {});
+        JsonElement fields = reply.get("invalidProfileFields");
+        if (fields == null || fields.isJsonNull()) {
+            return new ArrayList<>();
+        }
+        return new Gson().fromJson(fields, new TypeToken<List<String>>() {});
     }
 
     private String extractJson(String raw) {

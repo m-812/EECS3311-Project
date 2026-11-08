@@ -1,6 +1,6 @@
 # AI Smart Recipe and Meal Planning Agent
 
-EECS 3311 project: a Java desktop app with a Swing GUI and a command-line interface. It uses Claude Sonnet 5.5 to:
+EECS 3311 project: a Java desktop app with a Swing GUI and a command-line interface. It uses Claude Haiku 5.5 to:
 - recommend recipes
 - organise recipes you paste in
 - suggest changes to a recipe

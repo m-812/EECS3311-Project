@@ -102,7 +102,10 @@ public class AIAgent {
             builder.buildPantry(pantryManager.getItems());
             builder.buildFavourites(recipeManager.getFavourites());
             builder.buildRecipes(savedRecipes);
-            String request = "Plan my meals for the week. " + criteria;
+            String request = "Plan my meals for the week.";
+            if (!criteria.isBlank()) {
+                request += "\nMy criteria: " + criteria;
+            }
             if (savedOnly) {
                 request += "\nUse only my saved recipes.";
             }

@@ -15,7 +15,7 @@ public class Main {
         List<String> options = List.of(args);
         String apiKey = readApiKey();
         boolean fakeAI = options.contains("--fake-ai");
-        AIAgent agent = new AIAgent(fakeAI ? new FakeLLMClient() : new HttpLLMClient(apiKey, "claude-sonnet-5-5"));
+        AIAgent agent = new AIAgent(fakeAI ? new FakeLLMClient() : new HttpLLMClient(apiKey, "claude-haiku-5-5"));
         if (options.contains("--fixtures")) {
             loadFixtures();
         }
