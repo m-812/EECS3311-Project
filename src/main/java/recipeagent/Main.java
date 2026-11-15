@@ -14,13 +14,12 @@ public class Main {
     public static void main(String[] args) {
         List<String> options = List.of(args);
         String apiKey = readApiKey();
-        boolean fakeAI = options.contains("--fake-ai");
-        AIAgent agent = new AIAgent(fakeAI ? new FakeLLMClient() : new HttpLLMClient(apiKey, "claude-haiku-5-5"));
+        AIAgent agent = new AIAgent(new HttpLLMClient(apiKey, "claude-haiku-5-5"));
         if (options.contains("--fixtures")) {
             loadFixtures();
         }
         if (options.contains("--cli")) {
-            if (apiKey.isEmpty() && !fakeAI) {
+            if (apiKey.isEmpty()) {
                 System.out.println("No LLM_API_KEY was found in the .env file, so the AI features won't work.");
             }
             new CommandLineApp(agent).run();
@@ -33,7 +32,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             MainWindow window = new MainWindow(agent);
             window.setVisible(true);
-            if (apiKey.isEmpty() && !fakeAI) {
+            if (apiKey.isEmpty()) {
                 JOptionPane.showMessageDialog(window,
                         "No LLM_API_KEY was found in the .env file, so the AI features won't work.",
                         "No API key", JOptionPane.WARNING_MESSAGE);
