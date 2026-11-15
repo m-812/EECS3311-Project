@@ -1,0 +1,16 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+config.local.json
+
+# Build output
+target/
+
+# IDE and OS files
+.vscode/
+.idea/
+.classpath
+.project
+.settings/
+.DS_Store

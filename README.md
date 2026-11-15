@@ -17,13 +17,20 @@ EECS 3311 project: a Java desktop app with a Swing GUI and a command-line interf
 ## Setup
 
 1. Clone the repository and open a terminal in its folder.
-2. Copy `.env.example` to `.env` and put your key after `LLM_API_KEY=`. `.env` is git-ignored, so never commit it.
-3. Build the project. Maven downloads the only dependency, Gson.
+2. Copy the example configuration to a local `.env` file:
+   - macOS, Linux or PowerShell: `cp .env.example .env`
+   - Windows Command Prompt: `copy .env.example .env`
+3. Open `.env` and replace `YOUR_LOCAL_API_KEY_HERE` with your Anthropic API key, so the line reads `LLM_API_KEY=` followed by your key.
+   - `.env` is listed in `.gitignore`, so git won't commit it.
+   - Never put the key in source code or in any other file in the repository.
+4. Build the project. Maven downloads the only dependency, Gson.
    ```
    mvn compile
    ```
 
 ## Run
+
+Run these commands from the project folder, because the app reads `.env` from the folder it's started in.
 
 - GUI: `mvn compile exec:java`
 - CLI: `mvn compile exec:java -Dexec.args=--cli`
